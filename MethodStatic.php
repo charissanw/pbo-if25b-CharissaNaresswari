@@ -1,45 +1,43 @@
 <?php
 
 class Produk {
-    
-    // Property diubah menjadi static agar bisa diakses oleh method static
-    public static string $kode;
-    public static string $nama;
-    public static int $harga;
-    public static int $stok;
 
-    // Constant
+    //property
+    public string $kode;
+    public string $nama;
+    public int $harga;
+    public int $stok;
+
+    //constant
     public const PAJAK = 0.11;
 
-    // Membuat Method Static untuk memproses dan mencetak hasil
-    public static function prosesProduk(string $kodeInput, string $namaInput, int $hargaInput, int $stokInput) {
-        // Memasukkan inputan ke property static menggunakan self::
-        self::$kode = $kodeInput;
-        self::$nama = $namaInput;
-        self::$harga = $hargaInput;
-        self::$stok = $stokInput;
+    public function pajak() {
+        return self::PAJAK * 100;
+    }
 
-        // HITUNG PAJAK
-        $pajak = self::PAJAK * 100;
-        $jumlahpajak = self::$harga * self::PAJAK;
-
-        // total
-        $total = self::$harga + $jumlahpajak;
-
-        // hasil
-        echo "produk: " . self::$nama . "<br>";
-        echo "kode: " . self::$kode . "<br>";
-        echo "harga: " . self::$harga . "<br>";
-        echo "stok: " . self::$stok . "<br>";
-        echo "pajak: " . $pajak . "%" . "<br>";
-        echo "total harga setelah pajak: Rp." . $total;
+    public function total() {
+        return $this->harga + ($this->harga * self::PAJAK);
     }
 }
 
+//object
+$produk = new Produk();
+$produk->kode = 'P0001';
+$produk->nama = 'Laptop';
+$produk->harga = 10000000;
+$produk->stok = 5;
 
+//hasil
+echo "Produk: ".$produk->nama;
+echo "<br/>";
 
-// Tidak ada lagi '$produk = new produk();'
-// Inputan langsung dikirim melalui pemanggilan method static-nya
-Produk::prosesProduk('P001', 'Laptop', 10000000, 5);
+echo "Harga: ".$produk->harga;
+echo "<br/>";
 
-?>
+echo "Stok: ".$produk->stok;
+echo "<br/>";
+
+echo "Pajak: ".$produk->pajak() . "%";
+echo "<br/>";
+
+echo "Total harga setelah pajak: Rp.".$produk->total();
